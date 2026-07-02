@@ -2,24 +2,34 @@ import json
 import os
 import re
 import urllib.error
-import urllib.parse
 import urllib.request
 from typing import Any
 
 
-MODEL_NAME = "gemini-flash-latest"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+MODEL_NAME = os.getenv("GROQ_MODEL_NAME", "llama-3.1-8b-instant")
 
 
-def build_api_url() -> str:
-    api_key = os.getenv("SMAPIKEY") or os.getenv("GEMINI_API_KEY")
+def get_api_key() -> str:
+    return os.getenv("SMAPIKEY") or os.getenv("GROQ_API_KEY") or os.getenv("GEMINI_API_KEY") or ""
+
+
+def build_api_request(payload: dict[str, Any]) -> urllib.request.Request:
+    api_key = get_api_key()
     if not api_key:
         raise RuntimeError(
             "Missing SMAPIKEY environment variable. "
-            "Set a valid Gemini API key before running this script."
+            "Set a valid Groq API key before running this script."
         )
-    return (
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{MODEL_NAME}:generateContent?key={urllib.parse.quote(str(api_key))}"
+
+    return urllib.request.Request(
+        GROQ_API_URL,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+        },
+        method="POST",
     )
 
 SYSTEM_INSTRUCTION = (
@@ -95,47 +105,36 @@ def is_greeting(user_input: str) -> bool:
 
 def generate_reply(user_input: str) -> str:
     payload: dict[str, Any] = {
-        "system_instruction": {
-            "parts": [{"text": SYSTEM_INSTRUCTION}]
-        },
-        "contents": [
-            {
-                "role": "user",
-                "parts": [{"text": user_input}],
-            }
+        "model": MODEL_NAME,
+        "messages": [
+            {"role": "system", "content": SYSTEM_INSTRUCTION},
+            {"role": "user", "content": user_input},
         ],
     }
 
-    request = urllib.request.Request(
-        build_api_url(),
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
+        with urllib.request.urlopen(build_api_request(payload), timeout=30) as response:
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         details = error.read().decode("utf-8", errors="replace")
-        if error.code == 400 and "API_KEY_INVALID" in details:
+        if error.code in {401, 403} and "api key" in details.lower():
             raise RuntimeError(
-                "Gemini API key is invalid. Set SMAPIKEY to a valid Gemini API key."
+                "Groq API key is invalid. Set SMAPIKEY to a valid Groq API key."
             ) from error
-        raise RuntimeError(f"Gemini API request failed ({error.code}): {details}") from error
+        raise RuntimeError(f"Groq API request failed ({error.code}): {details}") from error
     except urllib.error.URLError as error:
-        raise RuntimeError(f"Could not reach Gemini API: {error.reason}") from error
+        raise RuntimeError(f"Could not reach Groq API: {error.reason}") from error
 
-    candidates = data.get("candidates", [])
-    if not candidates:
+    choices = data.get("choices", [])
+    if not choices:
         raise RuntimeError(f"Unexpected Gemini response: {data}")
 
-    content = candidates[0].get("content", {})
-    parts = content.get("parts", [])
-    if not parts:
-        raise RuntimeError(f"Unexpected Gemini response: {data}")
+    message = choices[0].get("message", {})
+    content = message.get("content", "")
+    if not content:
+        raise RuntimeError(f"Unexpected Groq response: {data}")
 
-    return "".join(part.get("text", "") for part in parts)
+    return str(content)
 
 
 def local_reply() -> str:
@@ -160,11 +159,11 @@ def run_cli() -> None:
             continue
 
         if is_greeting(user_input):
-            print("Gemini:", GREETING_REPLY)
+            print("Assistant:", GREETING_REPLY)
             continue
 
         if not is_probably_data_related(user_input):
-            print("Gemini:", OFF_TOPIC_REPLY)
+            print("Assistant:", OFF_TOPIC_REPLY)
             continue
 
         try:
@@ -174,7 +173,7 @@ def run_cli() -> None:
             print("Using local fallback response.")
             reply = local_reply()
 
-        print("Gemini:", reply)
+        print("Assistant:", reply)
 
 
 if __name__ == "__main__":
