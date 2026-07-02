@@ -117,6 +117,12 @@ def generate_reply(user_input: str) -> str:
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         details = error.read().decode("utf-8", errors="replace")
+        if error.code == 403 and "1010" in details:
+            raise RuntimeError(
+                "Groq rejected the request with Cloudflare error 1010. "
+                "This usually means the request is being blocked by Groq, your network, or an account/access restriction. "
+                "Check that the Groq API key is active, the selected model is allowed, and the request is not being filtered by a proxy or region policy."
+            ) from error
         if error.code in {401, 403} and "api key" in details.lower():
             raise RuntimeError(
                 "Groq API key is invalid. Set SMAPIKEY to a valid Groq API key."
