@@ -7,14 +7,14 @@ import urllib.request
 from typing import Any
 
 
-API_KEY = os.getenv("GEMINI_API_KEY")
+API_KEY = os.getenv("SMAPIKEY")
 MODEL_NAME = "gemini-flash-latest"
 
 
 def build_api_url() -> str:
     if not API_KEY:
         raise RuntimeError(
-            "Missing GEMINI_API_KEY environment variable. "
+            "Missing SMAPIKEY environment variable. "
             "Set it before running this script."
         )
     return (
