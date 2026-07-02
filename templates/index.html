@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Analysis Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div class="aurora"></div>
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">Data Analysis Agent</p>
+      <h1>Chat With Your Data Copilot</h1>
+      <p class="subcopy">Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.</p>
+    </header>
+
+    <section class="panel">
+      <div id="chatLog" class="chat-log" aria-live="polite">
+        <article class="bubble assistant">
+          <p>Ready to help with data analysis. Try: "Summarize trends in this CSV" or "Write pandas code for outlier detection".</p>
+        </article>
+      </div>
+
+      <form id="chatForm" class="composer">
+        <label class="field-label" for="message">Message</label>
+        <textarea id="message" name="message" rows="3" placeholder="Ask a data analysis question..."></textarea>
+
+        <div class="controls">
+          <label class="upload" for="dataset">Attach CSV</label>
+          <input id="dataset" name="dataset" type="file" accept=".csv" />
+          <span id="fileName" class="file-name">No file selected</span>
+          <button type="submit" id="sendBtn">Send</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
