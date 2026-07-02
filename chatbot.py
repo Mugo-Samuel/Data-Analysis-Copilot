@@ -7,19 +7,19 @@ import urllib.request
 from typing import Any
 
 
-API_KEY = os.getenv("SMAPIKEY")
 MODEL_NAME = "gemini-flash-latest"
 
 
 def build_api_url() -> str:
-    if not API_KEY:
+    api_key = os.getenv("SMAPIKEY") or os.getenv("GEMINI_API_KEY")
+    if not api_key:
         raise RuntimeError(
             "Missing SMAPIKEY environment variable. "
-            "Set it before running this script."
+            "Set a valid Gemini API key before running this script."
         )
     return (
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{MODEL_NAME}:generateContent?key={urllib.parse.quote(API_KEY)}"
+        f"{MODEL_NAME}:generateContent?key={urllib.parse.quote(str(api_key))}"
     )
 
 SYSTEM_INSTRUCTION = (
@@ -118,6 +118,10 @@ def generate_reply(user_input: str) -> str:
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         details = error.read().decode("utf-8", errors="replace")
+        if error.code == 400 and "API_KEY_INVALID" in details:
+            raise RuntimeError(
+                "Gemini API key is invalid. Set SMAPIKEY to a valid Gemini API key."
+            ) from error
         raise RuntimeError(f"Gemini API request failed ({error.code}): {details}") from error
     except urllib.error.URLError as error:
         raise RuntimeError(f"Could not reach Gemini API: {error.reason}") from error
