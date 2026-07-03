@@ -1,12 +1,11 @@
 import json
 import os
 import re
-import urllib.error
-import urllib.request
 from typing import Any
 
+from groq import Groq
 
-GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+
 MODEL_NAME = os.getenv("GROQ_MODEL_NAME", "llama-3.1-8b-instant")
 
 
@@ -14,7 +13,7 @@ def get_api_key() -> str:
     return os.getenv("SMAPIKEY") or os.getenv("GROQ_API_KEY") or os.getenv("GEMINI_API_KEY") or ""
 
 
-def build_api_request(payload: dict[str, Any]) -> urllib.request.Request:
+def get_groq_client() -> Groq:
     api_key = get_api_key()
     if not api_key:
         raise RuntimeError(
@@ -22,15 +21,7 @@ def build_api_request(payload: dict[str, Any]) -> urllib.request.Request:
             "Set a valid Groq API key before running this script."
         )
 
-    return urllib.request.Request(
-        GROQ_API_URL,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
-        method="POST",
-    )
+    return Groq(api_key=api_key)
 
 SYSTEM_INSTRUCTION = (
     "You are a data analysis assistant. Only help with tasks related to data "
@@ -104,43 +95,52 @@ def is_greeting(user_input: str) -> bool:
 
 
 def generate_reply(user_input: str) -> str:
-    payload: dict[str, Any] = {
-        "model": MODEL_NAME,
-        "messages": [
-            {"role": "system", "content": SYSTEM_INSTRUCTION},
-            {"role": "user", "content": user_input},
-        ],
-    }
-
     try:
-        with urllib.request.urlopen(build_api_request(payload), timeout=30) as response:
-            data = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as error:
-        details = error.read().decode("utf-8", errors="replace")
-        if error.code == 403 and "1010" in details:
+        client = get_groq_client()
+        completion = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": SYSTEM_INSTRUCTION},
+                {"role": "user", "content": user_input},
+            ],
+            temperature=1,
+            max_completion_tokens=1024,
+            top_p=1,
+            stream=True,
+            stop=None,
+        )
+
+        chunks: list[str] = []
+        for chunk in completion:
+            delta = chunk.choices[0].delta.content or ""
+            if delta:
+                chunks.append(delta)
+
+        reply = "".join(chunks).strip()
+        if not reply:
+            raise RuntimeError("Unexpected Groq response: empty completion")
+
+        return reply
+    except Exception as error:
+        details = str(error)
+        lowered = details.lower()
+
+        if "1010" in lowered or "cloudflare" in lowered:
             raise RuntimeError(
                 "Groq rejected the request with Cloudflare error 1010. "
                 "This usually means the request is being blocked by Groq, your network, or an account/access restriction. "
                 "Check that the Groq API key is active, the selected model is allowed, and the request is not being filtered by a proxy or region policy."
             ) from error
-        if error.code in {401, 403} and "api key" in details.lower():
+
+        if "api key" in lowered or "authentication" in lowered:
             raise RuntimeError(
-                "Groq API key is invalid. Set SMAPIKEY to a valid Groq API key."
+                "Groq API key is invalid. Set SMAPIKEY or GROQ_API_KEY to a valid Groq API key."
             ) from error
-        raise RuntimeError(f"Groq API request failed ({error.code}): {details}") from error
-    except urllib.error.URLError as error:
-        raise RuntimeError(f"Could not reach Groq API: {error.reason}") from error
 
-    choices = data.get("choices", [])
-    if not choices:
-        raise RuntimeError(f"Unexpected Groq response: {data}")
+        if "timeout" in lowered or "network" in lowered or "connect" in lowered:
+            raise RuntimeError(f"Could not reach Groq API: {details}") from error
 
-    message = choices[0].get("message", {})
-    content = message.get("content", "")
-    if not content:
-        raise RuntimeError(f"Unexpected Groq response: {data}")
-
-    return str(content)
+        raise RuntimeError(f"Groq API request failed: {details}") from error
 
 
 def local_reply(error: RuntimeError | None = None) -> str:
