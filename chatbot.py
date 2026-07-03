@@ -133,7 +133,7 @@ def generate_reply(user_input: str) -> str:
 
     choices = data.get("choices", [])
     if not choices:
-        raise RuntimeError(f"Unexpected Gemini response: {data}")
+        raise RuntimeError(f"Unexpected Groq response: {data}")
 
     message = choices[0].get("message", {})
     content = message.get("content", "")
@@ -143,14 +143,38 @@ def generate_reply(user_input: str) -> str:
     return str(content)
 
 
-def local_reply() -> str:
-    # Fallback stays scoped too, so behavior is consistent whether or not
-    # Gemini is reachable.
-    return (
-        "I'm currently offline, and even when online I only handle "
-        "data analysis questions (e.g. cleaning, statistics, pandas, SQL, "
-        "visualization). Please try again shortly."
+def local_reply(error: RuntimeError | None = None) -> str:
+    base_reply = (
+        "I can only help with data analysis tasks (e.g. cleaning, statistics, "
+        "pandas, SQL, visualization, summarizing datasets)."
     )
+
+    if error is None:
+        return base_reply
+
+    details = str(error)
+    lowered = details.lower()
+
+    if "cloudflare error 1010" in lowered:
+        return (
+            f"{base_reply} I could not reach Groq because the request was blocked. "
+            "Check the active Groq API key, model access, and whether a proxy, VPN, "
+            "or region policy is blocking the request."
+        )
+
+    if "api key" in lowered and ("invalid" in lowered or "missing" in lowered):
+        return (
+            f"{base_reply} The Groq API key looks invalid or missing. "
+            "Set SMAPIKEY or GROQ_API_KEY to a valid Groq key."
+        )
+
+    if "could not reach groq api" in lowered:
+        return (
+            f"{base_reply} I could not reach Groq right now. "
+            "Check your internet connection and try again."
+        )
+
+    return f"{base_reply} {details}"
 
 
 def run_cli() -> None:
@@ -177,7 +201,7 @@ def run_cli() -> None:
         except RuntimeError as error:
             print("Error:", error)
             print("Using local fallback response.")
-            reply = local_reply()
+            reply = local_reply(error)
 
         print("Assistant:", reply)
 

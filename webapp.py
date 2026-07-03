@@ -67,7 +67,7 @@ def chat():
         try:
             reply = generate_reply(model_input)
         except RuntimeError as error:
-            reply = f"{local_reply()}\n\nError details: {error}"
+            reply = local_reply(error)
 
         return jsonify({"reply": reply})
     except Exception as error:
