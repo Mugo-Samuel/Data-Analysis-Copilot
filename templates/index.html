@@ -12,30 +12,69 @@
 <body>
   <div class="aurora"></div>
   <main class="shell">
-    <header class="hero">
-      <p class="eyebrow">Data Analysis Agent</p>
-      <h1>Chat With Your Data Copilot</h1>
-      <p class="subcopy">Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.</p>
-    </header>
+    <section class="phone" aria-label="Chatbot phone preview">
+      <div class="phone-glow"></div>
 
-    <section class="panel">
-      <div id="chatLog" class="chat-log" aria-live="polite">
-        <article class="bubble assistant">
-          <p>Ready to help with data analysis. Try: "Summarize trends in this CSV" or "Write pandas code for outlier detection".</p>
-        </article>
-      </div>
-
-      <form id="chatForm" class="composer">
-        <label class="field-label" for="message">Message</label>
-        <textarea id="message" name="message" rows="3" placeholder="Ask a data analysis question..."></textarea>
-
-        <div class="controls">
-          <label class="upload" for="dataset">Attach CSV</label>
-          <input id="dataset" name="dataset" type="file" accept=".csv" />
-          <span id="fileName" class="file-name">No file selected</span>
-          <button type="submit" id="sendBtn">Send</button>
+      <header class="phone-bar">
+        <div class="status-left">
+          <span class="time">9:41</span>
+          <span class="signal">5G</span>
         </div>
-      </form>
+        <div class="notch" aria-hidden="true"></div>
+        <div class="status-right">
+          <span class="battery">96%</span>
+        </div>
+      </header>
+
+      <div class="screen">
+        <header class="hero">
+          <p id="eyebrow" class="eyebrow">Data Analysis Agent</p>
+          <h1 id="heroTitle">Chat With Your Data Copilot</h1>
+          <p id="subcopy" class="subcopy">Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.</p>
+        </header>
+
+        <section class="panel">
+          <div id="chatLog" class="chat-log" aria-live="polite">
+            <article class="bubble assistant">
+              <p>Ready to help with data analysis. Try: "Summarize trends in this CSV" or "Write pandas code for outlier detection".</p>
+            </article>
+          </div>
+
+          <form id="chatForm" class="composer">
+            <label class="field-label" for="message">Message</label>
+            <textarea id="message" name="message" rows="3" placeholder="Ask a data analysis question..."></textarea>
+
+            <div class="controls">
+              <label class="upload" for="dataset">Attach CSV</label>
+              <input id="dataset" name="dataset" type="file" accept=".csv" />
+              <span id="fileName" class="file-name">No file selected</span>
+              <button type="submit" id="sendBtn">Send</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="template-strip" aria-label="Other chatbot templates">
+          <div class="template-strip__heading">
+            <p class="field-label">Frontend demo templates</p>
+            <p class="template-strip__note">Switch the phone view without touching the backend.</p>
+          </div>
+
+          <div class="template-grid">
+            <button class="template-card is-active" type="button" data-template="data-analysis">
+              <span class="template-card__eyebrow">Data Analysis</span>
+              <strong>Agent for CSV, SQL, charts, and insights</strong>
+            </button>
+            <button class="template-card" type="button" data-template="furniture-care">
+              <span class="template-card__eyebrow">Furniture Care</span>
+              <strong>Customer care, sales, delivery, and warranty</strong>
+            </button>
+            <button class="template-card" type="button" data-template="hospital-care">
+              <span class="template-card__eyebrow">Hospital Care</span>
+              <strong>Appointments, support, billing, and guidance</strong>
+            </button>
+          </div>
+        </section>
+      </div>
     </section>
   </main>
 
