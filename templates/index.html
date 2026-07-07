@@ -3,161 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Analysis Agent</title>
+  <title>Automa Labs | Chatbots & Automations</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="aurora"></div>
-  <main class="page">
-    <section class="intro">
-      <div class="intro__copy">
-        <p class="eyebrow">We build chatbots</p>
-        <h1>We build custom WhatsApp chatbots, Telegram bots, and web chatbots that automate customer support, sales, bookings, and business workflows..</h1>
-        <p class="intro__text">
-          Preview four phone layouts for a data analysis agent,
-          a furniture agent, a hospital agent, and a customer care agent.
+  <main class="site-shell">
+    <nav class="topbar" aria-label="Primary">
+      <a class="brand" href="#home">Automa Labs</a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#demo">Demo Bots</a>
+        <a href="#pricing">Pricing</a>
+        <a href="mailto:mugosammysam@gmail.com">Contact</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="home">
+      <div class="hero__copy">
+        <p class="eyebrow">Chatbots + workflow automations</p>
+        <h1>We build useful chatbots for real business work.</h1>
+        <p class="hero__text">
+          We develop WhatsApp, Telegram, and website chatbots that answer customers,
+          qualify leads, book appointments, collect details, and connect to simple automations.
         </p>
 
-        <div class="intro__chips" aria-label="Highlights">
-          <span>Bold UI</span>
-          <span>Phone templates</span>
-          <span>Live switching</span>
+        <div class="hero__actions">
+          <a class="button button--primary" href="mailto:mugosammysam@gmail.com">Contact us</a>
+          <a class="button button--secondary" href="#demo">View chatbot demo</a>
+        </div>
+
+        <div class="hero__meta" id="pricing">
+          <span>Development range: <strong>$200 - $800</strong></span>
+          <span>Email: <a href="mailto:mugosammysam@gmail.com">mugosammysam@gmail.com</a></span>
         </div>
       </div>
 
-      <div class="intro__design" aria-hidden="true">
-        <div class="design-card design-card--large">
-          <span class="design-card__label">Chatbot Studio</span>
-          <strong>We build chatbots</strong>
-          <span class="design-card__meta">Product ready concepts with a visual edge.</span>
+      <aside class="front-chat" aria-label="Automa Labs assistant">
+        <div class="front-chat__bar">
+          <span class="status-dot"></span>
+          <span>Automa Labs Assistant</span>
         </div>
-        <div class="design-card design-card--stacked">
-          <span class="design-card__label">Design system</span>
-          <strong>Clean layouts</strong>
-          <span class="design-card__meta">Made for demos, pitches, and client previews.</span>
-        </div>
-      </div>
+
+        <div class="front-chat__messages" id="labChatLog" aria-live="polite"></div>
+
+        <form class="front-composer" id="labComposer">
+          <input id="labMessageInput" type="text" autocomplete="off" placeholder="Ask about bots, automation, price..." />
+          <button type="submit">Ask</button>
+        </form>
+      </aside>
     </section>
 
-    <section class="preview-section" aria-label="Chatbot phone preview">
-      <div class="section-head">
+    <section class="services" id="services" aria-label="Services">
+      <div class="section-heading">
+        <p class="eyebrow">What we focus on</p>
+        <h2>Chatbots first. Automations included where they help.</h2>
+      </div>
+
+      <div class="service-lines">
         <div>
-          <p class="field-label">Live phone preview</p>
-          <h2>Tap a phone template below to change the preview.</h2>
+          <h3>Chatbot development</h3>
+          <p>Customer support bots, sales assistants, booking bots, FAQ bots, and internal workflow helpers.</p>
         </div>
-        <p class="preview-section__note">The data analysis phone uses the backend; the others are front-end demo templates.</p>
+        <div>
+          <h3>Business automations</h3>
+          <p>Lead alerts, follow-up messages, spreadsheet updates, CRM handoff, reminders, and simple reporting flows.</p>
+        </div>
+        <div>
+          <h3>Channel setup</h3>
+          <p>WhatsApp, Telegram, and website chat widgets shaped around your actual customer questions.</p>
+        </div>
       </div>
-
-      <section class="phone" aria-label="Chatbot phone preview">
-        <div class="phone-glow"></div>
-
-        <header class="phone-bar">
-          <div class="status-left">
-            <span class="time">9:41</span>
-            <span class="signal">5G</span>
-          </div>
-          <div class="notch" aria-hidden="true"></div>
-          <div class="status-right">
-            <span class="battery">96%</span>
-          </div>
-        </header>
-
-        <div class="screen">
-          <header class="hero">
-            <p id="eyebrow" class="eyebrow">Data Analysis Agent</p>
-            <h1 id="heroTitle">Chat With Your Data Copilot</h1>
-            <p id="subcopy" class="subcopy">Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.</p>
-          </header>
-
-          <section class="panel">
-            <div id="chatLog" class="chat-log" aria-live="polite">
-              <article class="bubble assistant">
-                <p>Ready to help with data analysis. Try: "Summarize trends in this CSV" or "Write pandas code for outlier detection".</p>
-              </article>
-            </div>
-
-            <form id="chatForm" class="composer">
-              <label class="field-label" for="message">Message</label>
-              <textarea id="message" name="message" rows="3" placeholder="Ask a data analysis question..."></textarea>
-
-              <div class="controls">
-                <label class="upload" for="dataset">Attach CSV</label>
-                <input id="dataset" name="dataset" type="file" accept=".csv" />
-                <span id="fileName" class="file-name">No file selected</span>
-                <button type="submit" id="sendBtn">Send</button>
-              </div>
-            </form>
-          </section>
-        </div>
-      </section>
     </section>
 
-    <section class="template-strip" aria-label="Phone templates">
-      <div class="template-strip__heading">
-        <p class="field-label">Four phone templates</p>
-        <p class="template-strip__note">Use these bottom cards to preview the data analysis, furniture, hospital, and customer care layouts.</p>
+    <section class="demo" id="demo" aria-label="Dummy chatbot previews">
+      <div class="section-heading section-heading--split">
+        <div>
+          <p class="eyebrow">Dummy chatbot examples</p>
+          <h2>Choose a sample bot and preview the conversation.</h2>
+        </div>
+        <p>
+          These examples are intentionally simple. A finished build can connect to forms,
+          calendars, CRMs, spreadsheets, payment links, or your custom backend.
+        </p>
       </div>
 
-      <div class="template-grid">
-        <button class="template-card is-active" type="button" data-template="data-analysis">
-          <span class="template-card__phone">
-            <span class="template-card__status">
-              <span>9:41</span>
-              <span>5G</span>
-            </span>
-            <span class="template-card__screen">
-              <span class="template-card__eyebrow">Data Analysis</span>
-              <strong>CSV, SQL, charts, and insights</strong>
-              <span class="template-card__meta">Tap to preview</span>
-            </span>
-          </span>
-        </button>
-        <button class="template-card" type="button" data-template="furniture-care">
-          <span class="template-card__phone">
-            <span class="template-card__status">
-              <span>9:41</span>
-              <span>5G</span>
-            </span>
-            <span class="template-card__screen">
-              <span class="template-card__eyebrow">Furniture Agent</span>
-              <strong>Sales, delivery, warranty, and product help</strong>
-              <span class="template-card__meta">Tap to preview</span>
-            </span>
-          </span>
-        </button>
-        <button class="template-card" type="button" data-template="hospital-care">
-          <span class="template-card__phone">
-            <span class="template-card__status">
-              <span>9:41</span>
-              <span>5G</span>
-            </span>
-            <span class="template-card__screen">
-              <span class="template-card__eyebrow">Hospital Agent</span>
-              <strong>Appointments, billing, and support</strong>
-              <span class="template-card__meta">Tap to preview</span>
-            </span>
-          </span>
-        </button>
-        <button class="template-card" type="button" data-template="customer-care">
-          <span class="template-card__phone">
-            <span class="template-card__status">
-              <span>9:41</span>
-              <span>5G</span>
-            </span>
-            <span class="template-card__screen">
-              <span class="template-card__eyebrow">Customer Care</span>
-              <strong>Help desk, order support, and follow-up</strong>
-              <span class="template-card__meta">Tap to preview</span>
-            </span>
-          </span>
-        </button>
+      <div class="demo-grid">
+        <aside class="bot-picker" aria-label="Choose chatbot">
+          <button class="bot-card is-active" type="button" data-bot="support">
+            <strong>Customer Care Bot</strong>
+            <small>Orders, returns, issue routing</small>
+          </button>
+          <button class="bot-card" type="button" data-bot="sales">
+            <strong>Sales Assistant</strong>
+            <small>Lead capture and product guidance</small>
+          </button>
+          <button class="bot-card" type="button" data-bot="hospital">
+            <strong>Hospital Desk Bot</strong>
+            <small>Appointments and reminders</small>
+          </button>
+          <button class="bot-card" type="button" data-bot="furniture">
+            <strong>Furniture Store Bot</strong>
+            <small>Catalog advice and delivery help</small>
+          </button>
+        </aside>
+
+        <section class="phone" aria-label="Selected chatbot preview">
+          <div class="phone__top">
+            <span>9:41</span>
+            <span class="phone__notch"></span>
+            <span>5G</span>
+          </div>
+
+          <div class="phone__screen" data-theme="support">
+            <header class="chat-header">
+              <div>
+                <p id="botKicker">Customer Care Bot</p>
+                <h3 id="botTitle">Order support in seconds</h3>
+              </div>
+              <span id="botStatus">Online</span>
+            </header>
+
+            <div class="chat-log" id="chatLog" aria-live="polite"></div>
+
+            <form class="composer" id="composer">
+              <input id="messageInput" type="text" autocomplete="off" placeholder="Type a message..." />
+              <button type="submit">Send</button>
+            </form>
+          </div>
+        </section>
       </div>
+    </section>
+
+    <section class="contact-strip" aria-label="Contact">
+      <p>Ready to discuss a chatbot or automation?</p>
+      <a href="mailto:mugosammysam@gmail.com">mugosammysam@gmail.com</a>
     </section>
   </main>
 
-  <script src="{{ url_for('static', filename='app.js') }}"></script>
+  <script src="app.js"></script>
 </body>
 </html>
