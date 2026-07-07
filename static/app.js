@@ -44,6 +44,17 @@ const templates = {
     theme: "hospital-care",
     useServer: false,
   },
+  "customer-care": {
+    label: "Customer Care Agent",
+    title: "Customer Care Center",
+    subcopy:
+      "Use this demo to show help desk replies, order updates, refunds, handoff support, and customer follow-up.",
+    placeholder: "Ask about orders, refunds, or support...",
+    intro:
+      "Hello. I can help with order updates, returns, refunds, account questions, and customer follow-up.",
+    theme: "customer-care",
+    useServer: false,
+  },
 };
 
 let activeTemplate = "data-analysis";
@@ -119,6 +130,24 @@ function hospitalReply(message) {
   return "Thank you for reaching hospital support. I can help with appointments, billing, department directions, and patient assistance.";
 }
 
+function customerReply(message) {
+  const lowered = message.toLowerCase();
+
+  if (lowered.includes("order") || lowered.includes("delivery") || lowered.includes("shipping")) {
+    return "I can help with order status and delivery updates. Share your order number or the product name to continue.";
+  }
+
+  if (lowered.includes("refund") || lowered.includes("return") || lowered.includes("replacement")) {
+    return "I can explain refund, return, and replacement steps for you.";
+  }
+
+  if (lowered.includes("account") || lowered.includes("login") || lowered.includes("password")) {
+    return "I can guide you through account access and basic login support.";
+  }
+
+  return "Thanks for contacting customer care. I can help with orders, refunds, account questions, and follow-up support.";
+}
+
 datasetInput.addEventListener("change", () => {
   if (datasetInput.files.length > 0) {
     fileNameEl.textContent = datasetInput.files[0].name;
@@ -179,7 +208,11 @@ chatForm.addEventListener("submit", async (event) => {
       }
     } else {
       replyPromise = Promise.resolve(
-        activeTemplate === "furniture-care" ? furnitureReply(message) : hospitalReply(message)
+        activeTemplate === "furniture-care"
+          ? furnitureReply(message)
+          : activeTemplate === "hospital-care"
+            ? hospitalReply(message)
+            : customerReply(message)
       );
     }
 

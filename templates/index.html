@@ -11,69 +11,149 @@
 </head>
 <body>
   <div class="aurora"></div>
-  <main class="shell">
-    <section class="phone" aria-label="Chatbot phone preview">
-      <div class="phone-glow"></div>
+  <main class="page">
+    <section class="intro">
+      <div class="intro__copy">
+        <p class="eyebrow">We build chatbots</p>
+        <h1>Design-led chatbot templates for data teams and service brands.</h1>
+        <p class="intro__text">
+          Explore a polished landing page, then preview four phone layouts for a data analysis agent,
+          a furniture agent, a hospital agent, and a customer care agent.
+        </p>
 
-      <header class="phone-bar">
-        <div class="status-left">
-          <span class="time">9:41</span>
-          <span class="signal">5G</span>
+        <div class="intro__chips" aria-label="Highlights">
+          <span>Bold UI</span>
+          <span>Phone templates</span>
+          <span>Live switching</span>
         </div>
-        <div class="notch" aria-hidden="true"></div>
-        <div class="status-right">
-          <span class="battery">96%</span>
-        </div>
-      </header>
+      </div>
 
-      <div class="screen">
-        <header class="hero">
-          <p id="eyebrow" class="eyebrow">Data Analysis Agent</p>
-          <h1 id="heroTitle">Chat With Your Data Copilot</h1>
-          <p id="subcopy" class="subcopy">Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.</p>
+      <div class="intro__design" aria-hidden="true">
+        <div class="design-card design-card--large">
+          <span class="design-card__label">Chatbot Studio</span>
+          <strong>We build chatbots</strong>
+          <span class="design-card__meta">Product ready concepts with a visual edge.</span>
+        </div>
+        <div class="design-card design-card--stacked">
+          <span class="design-card__label">Design system</span>
+          <strong>Clean layouts</strong>
+          <span class="design-card__meta">Made for demos, pitches, and client previews.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-section" aria-label="Chatbot phone preview">
+      <div class="section-head">
+        <div>
+          <p class="field-label">Live phone preview</p>
+          <h2>Tap a phone template below to change the preview.</h2>
+        </div>
+        <p class="preview-section__note">The data analysis phone uses the backend; the others are front-end demo templates.</p>
+      </div>
+
+      <section class="phone" aria-label="Chatbot phone preview">
+        <div class="phone-glow"></div>
+
+        <header class="phone-bar">
+          <div class="status-left">
+            <span class="time">9:41</span>
+            <span class="signal">5G</span>
+          </div>
+          <div class="notch" aria-hidden="true"></div>
+          <div class="status-right">
+            <span class="battery">96%</span>
+          </div>
         </header>
 
-        <section class="panel">
-          <div id="chatLog" class="chat-log" aria-live="polite">
-            <article class="bubble assistant">
-              <p>Ready to help with data analysis. Try: "Summarize trends in this CSV" or "Write pandas code for outlier detection".</p>
-            </article>
-          </div>
+        <div class="screen">
+          <header class="hero">
+            <p id="eyebrow" class="eyebrow">Data Analysis Agent</p>
+            <h1 id="heroTitle">Chat With Your Data Copilot</h1>
+            <p id="subcopy" class="subcopy">Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.</p>
+          </header>
 
-          <form id="chatForm" class="composer">
-            <label class="field-label" for="message">Message</label>
-            <textarea id="message" name="message" rows="3" placeholder="Ask a data analysis question..."></textarea>
-
-            <div class="controls">
-              <label class="upload" for="dataset">Attach CSV</label>
-              <input id="dataset" name="dataset" type="file" accept=".csv" />
-              <span id="fileName" class="file-name">No file selected</span>
-              <button type="submit" id="sendBtn">Send</button>
+          <section class="panel">
+            <div id="chatLog" class="chat-log" aria-live="polite">
+              <article class="bubble assistant">
+                <p>Ready to help with data analysis. Try: "Summarize trends in this CSV" or "Write pandas code for outlier detection".</p>
+              </article>
             </div>
-          </form>
-        </section>
 
-        <section class="template-strip" aria-label="Other chatbot templates">
-          <div class="template-strip__heading">
-            <p class="field-label">Frontend demo templates</p>
-            <p class="template-strip__note">Switch the phone view without touching the backend.</p>
-          </div>
+            <form id="chatForm" class="composer">
+              <label class="field-label" for="message">Message</label>
+              <textarea id="message" name="message" rows="3" placeholder="Ask a data analysis question..."></textarea>
 
-          <div class="template-grid">
-            <button class="template-card is-active" type="button" data-template="data-analysis">
+              <div class="controls">
+                <label class="upload" for="dataset">Attach CSV</label>
+                <input id="dataset" name="dataset" type="file" accept=".csv" />
+                <span id="fileName" class="file-name">No file selected</span>
+                <button type="submit" id="sendBtn">Send</button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <section class="template-strip" aria-label="Phone templates">
+      <div class="template-strip__heading">
+        <p class="field-label">Four phone templates</p>
+        <p class="template-strip__note">Use these bottom cards to preview the data analysis, furniture, hospital, and customer care layouts.</p>
+      </div>
+
+      <div class="template-grid">
+        <button class="template-card is-active" type="button" data-template="data-analysis">
+          <span class="template-card__phone">
+            <span class="template-card__status">
+              <span>9:41</span>
+              <span>5G</span>
+            </span>
+            <span class="template-card__screen">
               <span class="template-card__eyebrow">Data Analysis</span>
-              <strong>Agent for CSV, SQL, charts, and insights</strong>
-            </button>
-            <button class="template-card" type="button" data-template="furniture-care">
-              <span class="template-card__eyebrow">Furniture Care</span>
-              <strong>Customer care, sales, delivery, and warranty</strong>
-            </button>
-            <button class="template-card" type="button" data-template="hospital-care">
-              <span class="template-card__eyebrow">Hospital Care</span>
-              <strong>Appointments, support, billing, and guidance</strong>
-            </button>
-          </div>
-        </section>
+              <strong>CSV, SQL, charts, and insights</strong>
+              <span class="template-card__meta">Tap to preview</span>
+            </span>
+          </span>
+        </button>
+        <button class="template-card" type="button" data-template="furniture-care">
+          <span class="template-card__phone">
+            <span class="template-card__status">
+              <span>9:41</span>
+              <span>5G</span>
+            </span>
+            <span class="template-card__screen">
+              <span class="template-card__eyebrow">Furniture Agent</span>
+              <strong>Sales, delivery, warranty, and product help</strong>
+              <span class="template-card__meta">Tap to preview</span>
+            </span>
+          </span>
+        </button>
+        <button class="template-card" type="button" data-template="hospital-care">
+          <span class="template-card__phone">
+            <span class="template-card__status">
+              <span>9:41</span>
+              <span>5G</span>
+            </span>
+            <span class="template-card__screen">
+              <span class="template-card__eyebrow">Hospital Agent</span>
+              <strong>Appointments, billing, and support</strong>
+              <span class="template-card__meta">Tap to preview</span>
+            </span>
+          </span>
+        </button>
+        <button class="template-card" type="button" data-template="customer-care">
+          <span class="template-card__phone">
+            <span class="template-card__status">
+              <span>9:41</span>
+              <span>5G</span>
+            </span>
+            <span class="template-card__screen">
+              <span class="template-card__eyebrow">Customer Care</span>
+              <strong>Help desk, order support, and follow-up</strong>
+              <span class="template-card__meta">Tap to preview</span>
+            </span>
+          </span>
+        </button>
       </div>
     </section>
   </main>
