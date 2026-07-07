@@ -1,229 +1,217 @@
-const chatForm = document.getElementById("chatForm");
-const messageInput = document.getElementById("message");
-const datasetInput = document.getElementById("dataset");
-const fileNameEl = document.getElementById("fileName");
-const chatLog = document.getElementById("chatLog");
-const sendBtn = document.getElementById("sendBtn");
-const templateButtons = document.querySelectorAll("[data-template]");
-const eyebrowEl = document.getElementById("eyebrow");
-const heroTitleEl = document.getElementById("heroTitle");
-const subcopyEl = document.getElementById("subcopy");
-const phoneShell = document.querySelector(".phone");
-
-const templates = {
-  "data-analysis": {
-    label: "Data Analysis Agent",
-    title: "Chat With Your Data Copilot",
-    subcopy:
-      "Ask for statistics, data cleaning strategies, SQL, chart ideas, and model interpretation. Upload a CSV for richer context.",
-    placeholder: "Ask a data analysis question...",
-    intro:
-      "Ready to help with data analysis. Try: \"Summarize trends in this CSV\" or \"Write pandas code for outlier detection\".",
-    theme: "data-analysis",
-    useServer: true,
+const bots = {
+  support: {
+    kicker: "Customer Care Bot",
+    title: "Order support in seconds",
+    status: "Online",
+    placeholder: "Ask about an order...",
+    messages: [
+      ["bot", "Hi, I am Ava from support. Share your order number and I can check delivery, returns, or warranty status."],
+      ["user", "My order is late. It was meant to arrive today."],
+      ["bot", "I can help with that. Order #BF-2048 is in transit and the courier expects delivery between 3:00 PM and 5:30 PM."],
+      ["bot", "Would you like me to send a tracking link or notify a human agent if it does not arrive?"]
+    ],
+    replies: [
+      "Done. I created a support note and sent the tracking link to the customer.",
+      "I can route this to a human agent with the full conversation summary and trigger a follow-up automation.",
+      "Builds usually range from $200 to $800. Contact mugosammysam@gmail.com for a proper quote."
+    ]
   },
-  "furniture-care": {
-    label: "Furniture Customer Care",
-    title: "Furniture Care & Sales Desk",
-    subcopy:
-      "Use this demo to show order help, delivery updates, materials, pricing, and warranty support for furniture customers.",
-    placeholder: "Ask about sofas, delivery, or warranty...",
-    intro:
-      "Hello. I can help with furniture sales, delivery status, returns, materials, and product guidance.",
-    theme: "furniture-care",
-    useServer: false,
+  sales: {
+    kicker: "Sales Assistant",
+    title: "Qualify leads while you sleep",
+    status: "Capturing leads",
+    placeholder: "Ask for a product recommendation...",
+    messages: [
+      ["bot", "Welcome. Tell me what you are shopping for and I will recommend the right option."],
+      ["user", "I need a chatbot for WhatsApp and my website."],
+      ["bot", "Great fit. I would suggest a support and sales hybrid: FAQs, lead capture, quote request, and handoff to your team."],
+      ["bot", "Can I collect your email and preferred launch date so the sales team can follow up?"]
+    ],
+    replies: [
+      "Perfect. I saved the lead and tagged it as WhatsApp plus website.",
+      "I would recommend a chatbot plus automation flow for lead capture, reminders, and team alerts.",
+      "I can prepare a starter quote. Most chatbot builds range from $200 to $800."
+    ]
   },
-  "hospital-care": {
-    label: "Hospital Customer Care",
-    title: "Hospital Support Desk",
-    subcopy:
-      "Use this demo to show appointment help, department guidance, billing support, and patient care information.",
-    placeholder: "Ask about appointments or support...",
-    intro:
-      "Welcome to hospital support. I can help with appointments, department directions, billing, and patient assistance.",
-    theme: "hospital-care",
-    useServer: false,
+  hospital: {
+    kicker: "Hospital Desk Bot",
+    title: "Appointments with less waiting",
+    status: "Desk open",
+    placeholder: "Ask about booking...",
+    messages: [
+      ["bot", "Hello. I can help with appointments, departments, visiting hours, and billing questions."],
+      ["user", "I want to book a dental appointment."],
+      ["bot", "The dental clinic has openings tomorrow at 10:30 AM and 2:00 PM. Which time works for you?"],
+      ["bot", "I can also send directions and a reminder two hours before the appointment."]
+    ],
+    replies: [
+      "Booked. I sent a confirmation message and reminder to the patient.",
+      "The next available dental slot is tomorrow at 10:30 AM, and the reminder can be automated.",
+      "For a hospital desk bot, email mugosammysam@gmail.com to discuss the workflow."
+    ]
   },
-  "customer-care": {
-    label: "Customer Care Agent",
-    title: "Customer Care Center",
-    subcopy:
-      "Use this demo to show help desk replies, order updates, refunds, handoff support, and customer follow-up.",
-    placeholder: "Ask about orders, refunds, or support...",
-    intro:
-      "Hello. I can help with order updates, returns, refunds, account questions, and customer follow-up.",
-    theme: "customer-care",
-    useServer: false,
-  },
+  furniture: {
+    kicker: "Furniture Store Bot",
+    title: "Guide buyers from catalog to delivery",
+    status: "Catalog ready",
+    placeholder: "Ask about furniture...",
+    messages: [
+      ["bot", "Hi. I can help you compare furniture, check stock, estimate delivery, or start a warranty claim."],
+      ["user", "Do you have a compact sofa for a small apartment?"],
+      ["bot", "Yes. I recommend the Luma two-seater: 162 cm wide, stain-resistant fabric, and delivery within 48 hours."],
+      ["bot", "Would you like color options, a delivery quote, or a payment link?"]
+    ],
+    replies: [
+      "I found three compact sofa options and can share photos, sizes, and prices.",
+      "Delivery to your area is available this Friday between 9:00 AM and 1:00 PM, with automated updates.",
+      "A store chatbot like this usually fits within the $200 to $800 development range."
+    ]
+  }
 };
 
-let activeTemplate = "data-analysis";
+const pickerButtons = document.querySelectorAll(".bot-card");
+const screen = document.querySelector(".phone__screen");
+const chatLog = document.querySelector("#chatLog");
+const botKicker = document.querySelector("#botKicker");
+const botTitle = document.querySelector("#botTitle");
+const botStatus = document.querySelector("#botStatus");
+const messageInput = document.querySelector("#messageInput");
+const composer = document.querySelector("#composer");
 
-function clearChat() {
-  chatLog.innerHTML = "";
+const labChatLog = document.querySelector("#labChatLog");
+const labComposer = document.querySelector("#labComposer");
+const labMessageInput = document.querySelector("#labMessageInput");
+
+let activeBot = "support";
+let replyIndex = 0;
+
+const labStarterMessages = [
+  ["bot", "Hi, I am the Automa Labs assistant. Ask me what we build, what we automate, or how much development costs."],
+  ["user", "Can you help my business?"],
+  ["bot", "Yes. I can explain chatbot ideas for support, sales, bookings, reminders, lead capture, and team handoffs."]
+];
+
+function getLabReply(message) {
+  const text = message.toLowerCase();
+
+  if (text.includes("price") || text.includes("cost") || text.includes("charge") || text.includes("budget") || text.includes("$")) {
+    return "Automa Labs chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth.";
+  }
+
+  if (text.includes("contact") || text.includes("email") || text.includes("call") || text.includes("reach")) {
+    return "You can contact Automa Labs at mugosammysam@gmail.com. Share what you want the bot to do and which channel you need.";
+  }
+
+  if (text.includes("automation") || text.includes("automate") || text.includes("workflow") || text.includes("reminder")) {
+    return "We can automate lead alerts, follow-up messages, appointment reminders, spreadsheet updates, CRM handoffs, and simple reporting flows.";
+  }
+
+  if (text.includes("whatsapp") || text.includes("telegram") || text.includes("website") || text.includes("web")) {
+    return "We build bots for WhatsApp, Telegram, and websites. The best channel depends on where your customers already message you.";
+  }
+
+  if (text.includes("support") || text.includes("customer") || text.includes("faq") || text.includes("order")) {
+    return "A support bot can answer FAQs, check order details, collect issue information, route requests, and prepare a summary for your team.";
+  }
+
+  if (text.includes("booking") || text.includes("appointment") || text.includes("hospital") || text.includes("calendar")) {
+    return "A booking assistant can collect customer details, suggest available times, confirm appointments, and send automated reminders.";
+  }
+
+  if (text.includes("sales") || text.includes("lead") || text.includes("sell")) {
+    return "A sales chatbot can qualify leads, recommend services, collect contact details, and notify your team when someone is ready to buy.";
+  }
+
+  return "Automa Labs builds chatbots and automations for real business tasks. Try asking about price, WhatsApp bots, booking bots, support bots, or workflow automation.";
 }
 
-function appendBubble(role, text) {
-  const article = document.createElement("article");
-  article.className = `bubble ${role}`;
+function renderMessages(botKey) {
+  const bot = bots[botKey];
 
-  const p = document.createElement("p");
-  p.textContent = text;
-  article.appendChild(p);
+  botKicker.textContent = bot.kicker;
+  botTitle.textContent = bot.title;
+  botStatus.textContent = bot.status;
+  messageInput.placeholder = bot.placeholder;
+  screen.dataset.theme = botKey;
+  chatLog.innerHTML = "";
 
-  chatLog.appendChild(article);
+  bot.messages.forEach(([speaker, text]) => addMessage(speaker, text));
   chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-function setActiveTemplate(templateKey) {
-  const template = templates[templateKey] || templates["data-analysis"];
-  activeTemplate = templateKey in templates ? templateKey : "data-analysis";
+function addMessage(speaker, text) {
+  const bubble = document.createElement("article");
+  bubble.className = `bubble bubble--${speaker === "user" ? "user" : "bot"}`;
 
-  document.body.dataset.theme = template.theme;
-  phoneShell.dataset.theme = template.theme;
-  eyebrowEl.textContent = template.label;
-  heroTitleEl.textContent = template.title;
-  subcopyEl.textContent = template.subcopy;
-  messageInput.placeholder = template.placeholder;
+  const paragraph = document.createElement("p");
+  paragraph.textContent = text;
 
-  templateButtons.forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.template === activeTemplate);
-  });
-
-  clearChat();
-  appendBubble("assistant", template.intro);
+  bubble.appendChild(paragraph);
+  chatLog.appendChild(bubble);
 }
 
-function furnitureReply(message) {
-  const lowered = message.toLowerCase();
+function addLabMessage(speaker, text) {
+  const bubble = document.createElement("article");
+  bubble.className = `bubble bubble--${speaker === "user" ? "user" : "bot"}`;
 
-  if (lowered.includes("price") || lowered.includes("cost") || lowered.includes("sale")) {
-    return "I can help with current pricing, bundle offers, and sale items. Tell me which furniture piece you want, and I’ll show options.";
-  }
+  const paragraph = document.createElement("p");
+  paragraph.textContent = text;
 
-  if (lowered.includes("deliver") || lowered.includes("shipping") || lowered.includes("order")) {
-    return "I can check delivery timelines and order status for you. Share your order number or the product name to continue.";
-  }
-
-  if (lowered.includes("warranty") || lowered.includes("return")) {
-    return "I can explain warranty coverage, returns, and replacement steps for furniture items.";
-  }
-
-  return "Thanks for contacting furniture customer care. I can help with product options, delivery, warranties, and sales questions.";
+  bubble.appendChild(paragraph);
+  labChatLog.appendChild(bubble);
+  labChatLog.scrollTop = labChatLog.scrollHeight;
 }
 
-function hospitalReply(message) {
-  const lowered = message.toLowerCase();
-
-  if (lowered.includes("appointment") || lowered.includes("book")) {
-    return "I can help with appointment booking, rescheduling, and visit timing. Tell me the department or preferred date.";
-  }
-
-  if (lowered.includes("bill") || lowered.includes("payment") || lowered.includes("insurance")) {
-    return "I can guide you on billing, payment, and insurance support. Share the question and I’ll point you to the right desk.";
-  }
-
-  if (lowered.includes("emergency") || lowered.includes("urgent")) {
-    return "If this is urgent, contact emergency services or your nearest hospital immediately. I can still help with non-emergency guidance.";
-  }
-
-  return "Thank you for reaching hospital support. I can help with appointments, billing, department directions, and patient assistance.";
+function renderLabStarter() {
+  labChatLog.innerHTML = "";
+  labStarterMessages.forEach(([speaker, text]) => addLabMessage(speaker, text));
 }
 
-function customerReply(message) {
-  const lowered = message.toLowerCase();
-
-  if (lowered.includes("order") || lowered.includes("delivery") || lowered.includes("shipping")) {
-    return "I can help with order status and delivery updates. Share your order number or the product name to continue.";
-  }
-
-  if (lowered.includes("refund") || lowered.includes("return") || lowered.includes("replacement")) {
-    return "I can explain refund, return, and replacement steps for you.";
-  }
-
-  if (lowered.includes("account") || lowered.includes("login") || lowered.includes("password")) {
-    return "I can guide you through account access and basic login support.";
-  }
-
-  return "Thanks for contacting customer care. I can help with orders, refunds, account questions, and follow-up support.";
-}
-
-datasetInput.addEventListener("change", () => {
-  if (datasetInput.files.length > 0) {
-    fileNameEl.textContent = datasetInput.files[0].name;
-  } else {
-    fileNameEl.textContent = "No file selected";
-  }
-});
-
-templateButtons.forEach((button) => {
+pickerButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    setActiveTemplate(button.dataset.template);
+    activeBot = button.dataset.bot;
+    replyIndex = 0;
+
+    pickerButtons.forEach((item) => item.classList.remove("is-active"));
+    button.classList.add("is-active");
+    renderMessages(activeBot);
   });
 });
 
-chatForm.addEventListener("submit", async (event) => {
+composer.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const message = messageInput.value.trim();
-  if (!message) {
-    return;
-  }
+  if (!message) return;
 
-  appendBubble("user", message);
-  sendBtn.disabled = true;
-  sendBtn.textContent = "Thinking...";
-
-  const template = templates[activeTemplate] || templates["data-analysis"];
-  let replyPromise;
-
+  addMessage("user", message);
   messageInput.value = "";
 
-  try {
-    if (template.useServer) {
-      const formData = new FormData();
-      formData.append("message", message);
-      if (datasetInput.files.length > 0) {
-        formData.append("dataset", datasetInput.files[0]);
-      }
+  const bot = bots[activeBot];
+  const reply = bot.replies[replyIndex % bot.replies.length];
+  replyIndex += 1;
 
-      const response = await fetch("/chat", {
-        method: "POST",
-        body: formData,
-      });
+  window.setTimeout(() => {
+    addMessage("bot", reply);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }, 380);
 
-      let data = null;
-      const contentType = response.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        const text = await response.text();
-        throw new Error(`Server returned non-JSON response (${response.status}). ${text.slice(0, 120)}`);
-      }
-
-      if (!response.ok) {
-        replyPromise = Promise.resolve(data.error || "Request failed.");
-      } else {
-        replyPromise = Promise.resolve(data.reply || "No response received.");
-      }
-    } else {
-      replyPromise = Promise.resolve(
-        activeTemplate === "furniture-care"
-          ? furnitureReply(message)
-          : activeTemplate === "hospital-care"
-            ? hospitalReply(message)
-            : customerReply(message)
-      );
-    }
-
-    const reply = await replyPromise;
-    appendBubble("assistant", reply);
-  } catch (error) {
-    appendBubble("assistant", `Network error: ${error.message}`);
-  } finally {
-    sendBtn.disabled = false;
-    sendBtn.textContent = "Send";
-  }
+  chatLog.scrollTop = chatLog.scrollHeight;
 });
 
-setActiveTemplate(activeTemplate);
+labComposer.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const message = labMessageInput.value.trim();
+  if (!message) return;
+
+  addLabMessage("user", message);
+  labMessageInput.value = "";
+
+  window.setTimeout(() => {
+    addLabMessage("bot", getLabReply(message));
+  }, 320);
+});
+
+renderMessages(activeBot);
+renderLabStarter();
