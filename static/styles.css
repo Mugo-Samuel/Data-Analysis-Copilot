@@ -436,27 +436,52 @@ p {
   overflow-y: auto;
 }
 
-.composer,
-.front-composer {
+.composer {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 8px;
-}
-
-.composer {
   padding: 12px;
   border-top: 1px solid rgba(67, 72, 90, 0.12);
   background: rgba(255, 255, 255, 0.7);
 }
 
 .front-composer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
   margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid rgba(67, 72, 90, 0.12);
 }
 
-.composer input,
 .front-composer input {
+  min-width: 0;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(67, 72, 90, 0.16);
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.86);
+  outline: none;
+}
+
+.front-composer input::placeholder {
+  color: #8f95a3;
+}
+
+.front-composer button {
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 14px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--purple);
+}
+
+.composer input {
   min-width: 0;
   height: 40px;
   padding: 0 12px;
@@ -467,18 +492,12 @@ p {
   outline: none;
 }
 
-.front-composer input {
-  height: 38px;
-  background: rgba(255, 255, 255, 0.86);
-}
-
-.composer input::placeholder,
-.front-composer input::placeholder {
+.composer input::placeholder {
   color: #9ba1ad;
 }
 
-.composer button,
-.front-composer button {
+.composer button {
+  height: 40px;
   border: 0;
   border-radius: 999px;
   padding: 0 14px;
@@ -487,15 +506,6 @@ p {
   font-weight: 800;
   cursor: pointer;
   background: var(--purple);
-}
-
-.composer button {
-  height: 40px;
-}
-
-.front-composer button {
-  height: 38px;
-  font-size: 0.8rem;
 }
 
 .contact-strip {
