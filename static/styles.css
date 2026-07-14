@@ -359,7 +359,7 @@ p {
 }
 
 .phone__screen {
-  min-height: 560px;
+  height: 560px;
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
@@ -434,6 +434,7 @@ p {
   gap: 10px;
   padding: 15px;
   overflow-y: auto;
+  min-height: 0;
 }
 
 .composer {
@@ -600,6 +601,6 @@ p {
   }
 
   .phone__screen {
-    min-height: 535px;
+    height: 535px;
   }
 }
