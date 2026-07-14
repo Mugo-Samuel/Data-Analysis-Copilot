@@ -8,6 +8,8 @@ const GREETINGS = [
 const THANKS = ["thanks", "thank you", "thx", "ty", "appreciate it", "cheers"];
 const BYES = ["bye", "goodbye", "see you", "later", "cya", "farewell"];
 
+const CONTACT_EMAIL = "automatebots.io@gmail.com";
+
 // Normalize a message for matching: lowercase, strip punctuation, collapse spaces.
 function normalize(text) {
   return text
@@ -35,7 +37,8 @@ function isBye(text) {
 }
 
 // Find the best matching topic reply for a bot given raw user text.
-// Falls back to a polite "out of context" message scoped to that bot.
+// Falls back to a message that restates what the bot handles and points
+// to the contact email for anything outside that scope.
 function findReply(bot, rawText) {
   const clean = normalize(rawText);
 
@@ -81,7 +84,7 @@ const bots = {
       { keywords: ["human", "agent", "person", "someone", "representative"], reply: "Of course, I can route this to a human agent along with a summary of our conversation. One moment." },
       { keywords: ["cancel"], reply: "I can help cancel an order as long as it hasn't shipped yet. What's the order number?" }
     ],
-    fallback: "I'm mainly set up to help with order tracking, returns, and warranty claims, so I'm not able to help with that here. Would you like me to connect you with a human agent instead?"
+    fallback: `I'm Ava, a support bot — I handle order tracking, returns, and warranty claims. That question is outside what I can look up here, so please email ${CONTACT_EMAIL} and our team will help directly.`
   },
   sales: {
     kicker: "Sales Assistant",
@@ -104,7 +107,7 @@ const bots = {
       { keywords: ["automation", "automate", "workflow", "reminder"], reply: "We can pair the chatbot with automations for lead alerts, reminders, and CRM updates." },
       { keywords: ["demo", "trial", "test"], reply: "I can set up a quick demo — what's the best email to send it to?" }
     ],
-    fallback: "That's a bit outside what I can help with here, since I'm focused on product recommendations and lead capture. Want me to connect you with a member of the sales team?"
+    fallback: `I'm the sales assistant — I help with product recommendations, pricing, and lead capture. For anything outside that, email ${CONTACT_EMAIL} and our team can help directly.`
   },
   hospital: {
     kicker: "Hospital Desk Bot",
@@ -127,7 +130,7 @@ const bots = {
       { keywords: ["emergency", "urgent"], reply: "For a medical emergency, please call emergency services or go to the nearest ER right away — I'm not able to handle urgent care requests here." },
       { keywords: ["reminder", "confirm", "cancel appointment"], reply: "I can send a confirmation and a reminder two hours before your appointment, or help cancel/reschedule it." }
     ],
-    fallback: "I'm set up to help with appointments, departments, visiting hours, and billing, so I'm not able to help with that here. Would you like me to transfer you to the front desk?"
+    fallback: `I'm the front desk bot — I handle appointments, departments, visiting hours, and billing questions. That's outside what I can help with here, so please email ${CONTACT_EMAIL} for more clarification.`
   },
   furniture: {
     kicker: "Furniture Store Bot",
@@ -151,7 +154,7 @@ const bots = {
       { keywords: ["price", "cost", "how much"], reply: "Prices vary by piece — tell me which item you're interested in and I'll pull up the exact price." },
       { keywords: ["payment", "pay", "checkout"], reply: "I can send a secure payment link once you've picked your item and color." }
     ],
-    fallback: "I'm mainly set up to help with furniture recommendations, stock, delivery, and warranty questions, so I'm not able to help with that here. Want me to connect you with our team instead?"
+    fallback: `I'm the furniture store bot — I help with product recommendations, stock, delivery, and warranty questions. For anything else, email ${CONTACT_EMAIL} and our team can clarify.`
   }
 };
 
@@ -171,18 +174,18 @@ const labMessageInput = document.querySelector("#labMessageInput");
 let activeBot = "support";
 
 const labStarterMessages = [
-  ["bot", "Hi, I am the Omisbots assistant. Ask me what we build, what we automate, or how much development costs."],
+  ["bot", "Hi, I am the automation assistant. Ask me what we build, what we automate, or how much development costs."],
   ["user", "Can you help my business?"],
   ["bot", "Yes. I can explain chatbot ideas for support, sales, bookings, reminders, lead capture, and team handoffs."]
 ];
 
 const labBot = {
-  greeting: "Hey there! I'm the Omisbots assistant. Ask me about pricing, channels, automations, or the kind of bot you need.",
-  thanks: "You're welcome! Anything else you'd like to know about Omisbots?",
+  greeting: "Hey there! I'm the automation assistant. Ask me about pricing, channels, automations, or the kind of bot you need.",
+  thanks: "You're welcome! Anything else you'd like to know?",
   goodbye: "Thanks for chatting — reach out any time you're ready to build.",
   topics: [
-    { keywords: ["price", "cost", "charge", "budget", "$"], reply: "Omisbots chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth." },
-    { keywords: ["contact", "email", "call", "reach"], reply: "You can contact Omisbots at mugosammysam@gmail.com. Share what you want the bot to do and which channel you need." },
+    { keywords: ["price", "cost", "charge", "budget", "$"], reply: "Chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth." },
+    { keywords: ["contact", "email", "call", "reach"], reply: `You can reach us at ${CONTACT_EMAIL}. Share what you want the bot to do and which channel you need.` },
     { keywords: ["automation", "automate", "workflow", "reminder"], reply: "We can automate lead alerts, follow-up messages, appointment reminders, spreadsheet updates, CRM handoffs, and simple reporting flows." },
     { keywords: ["whatsapp", "telegram", "website", "web"], reply: "We build bots for WhatsApp, Telegram, and websites. The best channel depends on where your customers already message you." },
     { keywords: ["support", "customer", "faq", "order"], reply: "A support bot can answer FAQs, check order details, collect issue information, route requests, and prepare a summary for your team." },
@@ -190,7 +193,7 @@ const labBot = {
     { keywords: ["sales", "lead", "sell"], reply: "A sales chatbot can qualify leads, recommend services, collect contact details, and notify your team when someone is ready to buy." },
     { keywords: ["time", "how long", "timeline", "turnaround"], reply: "Most builds take one to three weeks depending on complexity and how many integrations are involved." }
   ],
-  fallback: "That's a bit outside what I can help with here. I'm focused on explaining Omisbots' chatbots, automations, and pricing — try asking about price, WhatsApp bots, booking bots, support bots, or workflow automation."
+  fallback: `I'm the automation assistant — I explain chatbot builds, automations, and pricing, so I'm not able to help with that here. For more clarification, email ${CONTACT_EMAIL}.`
 };
 
 function getLabReply(message) {
