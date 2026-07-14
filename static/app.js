@@ -86,7 +86,7 @@ let activeBot = "support";
 let replyIndex = 0;
 
 const labStarterMessages = [
-  ["bot", "Hi, I am the Automa Works assistant. Ask me what we build, what we automate, or how much development costs."],
+  ["bot", "Hi, I am the Omisbots assistant. Ask me what we build, what we automate, or how much development costs."],
   ["user", "Can you help my business?"],
   ["bot", "Yes. I can explain chatbot ideas for support, sales, bookings, reminders, lead capture, and team handoffs."]
 ];
@@ -95,11 +95,11 @@ function getLabReply(message) {
   const text = message.toLowerCase();
 
   if (text.includes("price") || text.includes("cost") || text.includes("charge") || text.includes("budget") || text.includes("$")) {
-    return "Automa Works chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth.";
+    return "Omisbots chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth.";
   }
 
   if (text.includes("contact") || text.includes("email") || text.includes("call") || text.includes("reach")) {
-    return "You can contact Automa Works at mugosammysam@gmail.com. Share what you want the bot to do and which channel you need.";
+    return "You can contact Omisbots at mugosammysam@gmail.com. Share what you want the bot to do and which channel you need.";
   }
 
   if (text.includes("automation") || text.includes("automate") || text.includes("workflow") || text.includes("reminder")) {
@@ -122,7 +122,7 @@ function getLabReply(message) {
     return "A sales chatbot can qualify leads, recommend services, collect contact details, and notify your team when someone is ready to buy.";
   }
 
-  return "Automa Works builds chatbots and automations for real business tasks. Try asking about price, WhatsApp bots, booking bots, support bots, or workflow automation.";
+  return "Omisbots builds chatbots and automations for real business tasks. Try asking about price, WhatsApp bots, booking bots, support bots, or workflow automation.";
 }
 
 function renderMessages(botKey) {
