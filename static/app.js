@@ -1,5 +1,5 @@
 const GREETINGS = [
-  "hi", "hi there", "hello", "hello there", "hey", "hey there", "heya",
+  "hi", "hi there", "hello","hae", "hello there", "hey", "hey there", "heya",
   "hiya", "yo", "sup", "whats up", "what's up", "howdy", "greetings",
   "good morning", "good afternoon", "good evening", "morning", "evening",
   "hola", "afternoon"
