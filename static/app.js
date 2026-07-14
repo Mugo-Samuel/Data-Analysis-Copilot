@@ -174,26 +174,26 @@ const labMessageInput = document.querySelector("#labMessageInput");
 let activeBot = "support";
 
 const labStarterMessages = [
-  ["bot", "Hi, I am the automation assistant. Ask me what we build, what we automate, or how much development costs."],
+  ["bot", "Hi, I am the Omisbots assistant. Ask me what we build, what we automate, or how much development costs."],
   ["user", "Can you help my business?"],
-  ["bot", "Yes. I can explain chatbot ideas for support, sales, bookings, reminders, lead capture, and team handoffs."]
+  ["bot", "Yes. We build AI-powered chatbots that help businesses automate support, increase sales, manage bookings, and deliver better customer experiences"]
 ];
 
 const labBot = {
-  greeting: "Hey there! I'm the automation assistant. Ask me about pricing, channels, automations, or the kind of bot you need.",
+  greeting: "Hey there! I'm the Omisbots assistant. Ask me about pricing and automations, or the kind of bot you need.",
   thanks: "You're welcome! Anything else you'd like to know?",
   goodbye: "Thanks for chatting — reach out any time you're ready to build.",
   topics: [
-    { keywords: ["price", "cost", "charge", "budget", "$"], reply: "Chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth." },
+    { keywords: ["price","pricing", "cost", "charge", "budget", "$"], reply: "Chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth." },
     { keywords: ["contact", "email", "call", "reach"], reply: `You can reach us at ${CONTACT_EMAIL}. Share what you want the bot to do and which channel you need.` },
     { keywords: ["automation", "automate", "workflow", "reminder"], reply: "We can automate lead alerts, follow-up messages, appointment reminders, spreadsheet updates, CRM handoffs, and simple reporting flows." },
-    { keywords: ["whatsapp", "telegram", "website", "web"], reply: "We build bots for WhatsApp, Telegram, and websites. The best channel depends on where your customers already message you." },
+    { keywords: ["whatsapp","channels", "telegram", "website", "web"], reply: "We build bots for WhatsApp, Telegram, and websites. The best channel depends on where your customers already message you." },
     { keywords: ["support", "customer", "faq", "order"], reply: "A support bot can answer FAQs, check order details, collect issue information, route requests, and prepare a summary for your team." },
     { keywords: ["booking", "appointment", "hospital", "calendar"], reply: "A booking assistant can collect customer details, suggest available times, confirm appointments, and send automated reminders." },
     { keywords: ["sales", "lead", "sell"], reply: "A sales chatbot can qualify leads, recommend services, collect contact details, and notify your team when someone is ready to buy." },
-    { keywords: ["time", "how long", "timeline", "turnaround"], reply: "Most builds take one to three weeks depending on complexity and how many integrations are involved." }
+    { keywords: ["time", "how long", "timeline", "turnaround"], reply: "Most builds take one to two weeks depending on complexity and how many integrations are involved." }
   ],
-  fallback: `I'm the automation assistant — I explain chatbot builds, automations, and pricing, so I'm not able to help with that here. For more clarification, email ${CONTACT_EMAIL}.`
+  fallback: `I'm the Omsibots assistant — I explain chatbot builds, automations, and pricing, so I'm not able to help with that here. For more clarification, email ${CONTACT_EMAIL}.`
 };
 
 function getLabReply(message) {
