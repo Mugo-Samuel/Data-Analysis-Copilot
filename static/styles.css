@@ -170,14 +170,14 @@ input {
 .hero {
   min-height: 78vh;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px; /* Aligned with smartphone mockup size */
-  gap: clamp(30px, 7vw, 92px);
-  align-items: center;
-  padding: 80px 0 74px; /* Slight top padding cushion for fixed navbar */
+  grid-template-columns: 1fr auto; /* Automatically wraps our compact right side */
+  gap: clamp(20px, 5vw, 60px);
+  align-items: center; /* Keeps both copy and assistant perfectly centered vertically */
+  padding: 80px 0 74px; 
 }
 
 .hero__copy {
-  max-width: 560px;
+  max-width: 540px;
 }
 
 .eyebrow {
@@ -196,7 +196,7 @@ h1, h2, h3, p {
 .hero h1 {
   color: #fff; 
   margin-bottom: 18px;
-  font-size: clamp(2.55rem, 5.7vw, 4.25rem);
+  font-size: clamp(2.4rem, 5.2vw, 3.8rem);
   line-height: 1.15; /* Clean punchy title leading */
   letter-spacing: -0.02em;
 }
@@ -232,7 +232,7 @@ h1, h2, h3, p {
   max-width: 560px;
   margin-bottom: 24px;
   color: #e2e8f0; 
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   line-height: 1.6;
 }
 
@@ -299,11 +299,13 @@ h1, h2, h3, p {
   color: #fff; 
 }
 
-/* ---------- Interactive Smartphone Wrapper & Mockup ---------- */
+/* ---------- Interactive Smartphone Wrapper & Mockup (Downsized) ---------- */
 .phone-mockup-wrapper {
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end; /* Align elements to the far right */
+  justify-self: end;         /* Lock mockup layout block to far right */
+  width: 100%;
 }
 
 .phone-mockup-wrapper::before {
@@ -321,29 +323,29 @@ h1, h2, h3, p {
 .phone-mockup {
   position: relative;
   width: 100%;
-  max-width: 360px; 
-  margin: 0 auto;
-  border: 11px solid #2d2a30; 
-  border-radius: 44px; 
+  max-width: 270px; /* Much smaller phone frame footprint */
+  margin: 0; /* Let flex/justify control centering */
+  border: 8px solid #2d2a30; /* Thinner elegant bezel */
+  border-radius: 32px; /* Balanced corner roundness for smaller frame */
   background-color: #1a181c;
   box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.7),
+    0 20px 45px -10px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(255, 255, 255, 0.08) inset;
   overflow: hidden;
 }
 
-/* Notch Header Area */
+/* Smaller Notch Area */
 .phone-mockup::before {
   content: "";
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
-  height: 24px;
+  width: 90px;
+  height: 18px;
   background-color: #2d2a30;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
   z-index: 15;
 }
 
@@ -351,8 +353,8 @@ h1, h2, h3, p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 22px 6px 22px;
-  font-size: 0.75rem;
+  padding: 8px 16px 4px 16px;
+  font-size: 0.68rem; /* Smaller status bar items */
   font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
   background: rgba(255, 255, 255, 0.03);
@@ -365,21 +367,21 @@ h1, h2, h3, p {
 .phone-status-bar .right-icons {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 /* Physical style Home Gesture bar at base */
 .phone-home-indicator {
-  width: 110px;
-  height: 4px;
+  width: 80px;
+  height: 3px;
   background-color: rgba(255, 255, 255, 0.35);
   border-radius: 10px;
-  margin: 8px auto 6px auto;
+  margin: 6px auto 4px auto;
   z-index: 10;
   position: relative;
 }
 
-/* Glassmorphic Screen Container for Hero Assistant */
+/* Glassmorphic Screen Container for Hero Assistant (Downsized) */
 .front-chat {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
@@ -388,21 +390,21 @@ h1, h2, h3, p {
   border-radius: 0;
   display: flex;
   flex-direction: column;
-  height: 480px; 
+  height: 370px; /* Reduced vertical screen space */
 }
 
 .front-chat__bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
+  gap: 8px;
+  padding: 10px 14px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.01);
 }
 
 .bot-avatar {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: linear-gradient(135deg, #8b5cf6, #ec4899);
   display: flex;
@@ -412,14 +414,14 @@ h1, h2, h3, p {
 }
 
 .bot-avatar svg {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   fill: #ffffff;
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: #10b981; 
   border-radius: 50%;
   position: relative;
@@ -443,16 +445,20 @@ h1, h2, h3, p {
   100% { transform: scale(2.5); opacity: 0; }
 }
 
+.front-chat__bar span {
+  font-size: 0.8rem; /* Slightly smaller header title */
+}
+
 .front-chat__messages {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 12px;
 }
 
 .front-composer {
-  padding: 14px 18px 10px 18px;
+  padding: 10px 12px 8px 12px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.15);
 }
@@ -460,8 +466,9 @@ h1, h2, h3, p {
 .front-composer input {
   flex: 1;
   min-width: 0;
-  height: 38px;
-  padding: 0 14px;
+  height: 32px;
+  padding: 0 10px;
+  font-size: 0.78rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   color: #fff;
@@ -480,12 +487,12 @@ h1, h2, h3, p {
 }
 
 .front-composer button {
-  height: 38px;
+  height: 32px;
   border: 0;
   border-radius: 999px;
-  padding: 0 16px;
+  padding: 0 12px;
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 800;
   cursor: pointer;
   background: var(--purple);
@@ -500,12 +507,12 @@ h1, h2, h3, p {
 /* ---------- Chat Bubble Styles ---------- */
 .bubble {
   max-width: 88%;
-  border-radius: 17px;
-  padding: 10px 12px;
+  border-radius: 14px;
+  padding: 8px 10px;
   color: var(--ink);
-  font-size: 0.84rem;
-  line-height: 1.48;
-  margin-bottom: 10px;
+  font-size: 0.78rem; /* Scaled down bubble fonts */
+  line-height: 1.4;
+  margin-bottom: 8px;
   animation: messageIn 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -516,14 +523,14 @@ h1, h2, h3, p {
 .bubble--bot {
   justify-self: start;
   align-self: flex-start;
-  border-bottom-left-radius: 6px;
+  border-bottom-left-radius: 4px;
   background: var(--bot);
 }
 
 .bubble--user {
   justify-self: end;
   align-self: flex-end;
-  border-bottom-right-radius: 6px;
+  border-bottom-right-radius: 4px;
   background: var(--user);
 }
 
@@ -675,7 +682,7 @@ h1, h2, h3, p {
   color: #fff;
 }
 
-/* Standard Secondary Showcase Phone Frame */
+/* Standard Secondary Showcase Phone Frame (Static showcase) */
 .phone {
   width: min(100%, 360px);
   justify-self: center;
@@ -909,6 +916,7 @@ h1, h2, h3, p {
 
   .hero__copy {
     margin-left: 0;
+    max-width: 100%;
   }
 
   .hero h1 {
@@ -916,8 +924,10 @@ h1, h2, h3, p {
   }
 
   .phone-mockup-wrapper {
-    max-width: 360px;
+    max-width: 270px;
     margin: 0 auto;
+    justify-content: center; /* Center on tablets/mobile screens */
+    justify-self: center;
   }
 }
 
