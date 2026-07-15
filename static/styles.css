@@ -170,10 +170,10 @@ input {
 .hero {
   min-height: 78vh;
   display: grid;
-  grid-template-columns: 1fr auto; /* Automatically wraps our compact right side */
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 1fr);
   gap: clamp(20px, 5vw, 60px);
   align-items: center; /* Keeps both copy and assistant perfectly centered vertically */
-  padding: 80px 0 74px; 
+  padding: 80px 0 74px;
 }
 
 .hero__copy {
@@ -303,9 +303,10 @@ h1, h2, h3, p {
 .phone-mockup-wrapper {
   position: relative;
   display: flex;
-  justify-content: flex-end; /* Align elements to the far right */
-  justify-self: end;         /* Lock mockup layout block to far right */
-  width: 100%;
+  justify-content: flex-end;
+  justify-self: end;
+  width: 270px;
+  margin-left: auto;
 }
 
 .phone-mockup-wrapper::before {
@@ -322,9 +323,9 @@ h1, h2, h3, p {
 
 .phone-mockup {
   position: relative;
-  width: 100%;
-  max-width: 270px; /* Much smaller phone frame footprint */
-  margin: 0; /* Let flex/justify control centering */
+  width: 270px;
+  max-width: 100%; /* Keeps the mockup responsive within its right column */
+  margin: 0;
   border: 8px solid #2d2a30; /* Thinner elegant bezel */
   border-radius: 32px; /* Balanced corner roundness for smaller frame */
   background-color: #1a181c;
@@ -967,3 +968,4 @@ h1, h2, h3, p {
     height: 480px;
   }
 }
+
