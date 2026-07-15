@@ -8,8 +8,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  
+  <style>
+    /* Forces the globe to act as a fixed, full-page background */
+    #vanta-globe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;          /* Keeps it behind all text and components */
+      pointer-events: none; /* Prevents it from blocking clicks on buttons and inputs */
+    }
+
+    /* Ensures the main content sits properly on top of the background */
+    body {
+      margin: 0;
+      background-color: #1f1d21; /* Matches your Vanta background fallback */
+    }
+
+    .site-shell {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
+  <div id="vanta-globe" aria-hidden="true"></div>
+
   <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
 
   <main class="site-shell">
@@ -23,7 +49,6 @@
     </nav>
 
     <section class="hero" id="home">
-      <div id="vanta-globe" aria-hidden="true"></div>
       <div class="hero__copy">
         <p class="eyebrow fade-up" style="animation-delay: 0.05s;">Chatbots + workflow automations</p>
         <h1 id="heroTitle">We build useful chatbots for real business work.</h1>
@@ -150,27 +175,24 @@
   <script src="{{ url_for('static', filename='site-motion.js') }}"></script>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    if (window.VANTA) {
-      window.VANTA.GLOBE({
-        el: "#vanta-globe",
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x120308,
-        backgroundColor: 0x1f1d21
-      });
-    }
-  });
-</script>
-<script src="{{ url_for('static', filename='site-motion.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.VANTA) {
+        window.VANTA.GLOBE({
+          el: "#vanta-globe",
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x120308,
+          backgroundColor: 0x1f1d21
+        });
+      }
+    });
+  </script>
 </body>
 </html>
-
-
