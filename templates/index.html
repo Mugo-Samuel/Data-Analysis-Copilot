@@ -31,6 +31,131 @@
       position: relative;
       z-index: 1;
     }
+
+    /* ==========================================================================
+       POLISHED UPGRADES (Typography, Spacing, Mockups & Depth)
+       ========================================================================== */
+
+    /* 1. Typography & Spacing */
+    #heroTitle {
+      line-height: 1.15; /* Tightened leading for a punchier headline */
+    }
+
+    .hero__text {
+      font-size: 1.1rem;      /* Slightly larger font size */
+      color: #e2e8f0;         /* Brighter off-white/light gray for contrast against dark violet */
+      line-height: 1.6;
+    }
+
+    .hero__actions {
+      padding-bottom: 2rem;   /* Ensures buttons do not get cut off at bottom viewports */
+    }
+
+    /* 2. Elevate Interactive Mockup (Glassmorphism, Avatars, Pulse) */
+    .front-chat {
+      background: rgba(255, 255, 255, 0.06) !important; /* Semi-transparent white */
+      backdrop-filter: blur(16px);                      /* Heavy backdrop blur */
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Subtle white border */
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;  /* Deep premium drop shadow */
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Soft radial glow behind the chatbot to push background wireframes/grid back */
+    .front-chat::before {
+      content: "";
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      right: -10%;
+      bottom: -10%;
+      background: radial-gradient(circle, rgba(27, 13, 48, 0.8) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Header Bar layout centering and alignment */
+    .front-chat__bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Bot Avatar Styling */
+    .bot-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+    }
+
+    .bot-avatar svg {
+      width: 14px;
+      height: 14px;
+      fill: #ffffff;
+    }
+
+    /* Animated Pulse Dot */
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981; /* Premium Emerald active green */
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #10b981;
+      animation: status-pulse 2s infinite ease-in-out;
+      opacity: 0.75;
+    }
+
+    @keyframes status-pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.75;
+      }
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    /* Polishing the input composer bar at the bottom */
+    .front-composer {
+      padding: 16px 18px 20px 18px !important; /* Added breathability underneath elements */
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* 3. Outer Edge Nav Alignment & Layout Container */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px; /* Align to the same max-width container as your hero content */
+      margin: 0 auto;
+      padding: 20px 24px;
+      left: 0;
+      right: 0;
+    }
   </style>
 </head>
 <body>
@@ -70,11 +195,16 @@
       <aside class="front-chat" aria-label="Omisbots assistant">
         <div class="front-chat__bar">
           <span class="status-dot"></span>
-          <span>Omisbots Assistant</span>
+          <div class="bot-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4M12,18C8.69,18 6,15.31 6,12C6,10.93 6.28,9.93 6.77,9.07L8.25,10.55C8.09,11 8,11.5 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12C16,11.5 15.91,11 15.75,10.55L17.23,9.07C17.72,9.93 18,10.93 18,12C18,15.31 15.31,18 12,18Z"/>
+            </svg>
+          </div>
+          <span style="font-weight: 600; color: #ffffff;">Omisbots Assistant</span>
         </div>
         <div class="front-chat__messages" id="labChatLog" aria-live="polite"></div>
         <form class="front-composer" id="labComposer">
-          <input id="labMessageInput" type="text" autocomplete="off" placeholder="Ask about bots, automation, price..." />
+          <input id="labMessageInput" type="text" autocomplete="off" placeholder="Ask about bots, automation..." />
           <button type="submit">Ask</button>
         </form>
       </aside>
