@@ -306,7 +306,7 @@ h1, h2, h3, p {
     Align the phone flush to the true viewport right edge, even though the
     hero content itself is centered inside the 980px site shell.
   */
-  right: calc(50% - 50vw);
+  right: calc(50% - 50vw+30px);
   transform: none;
   width: 320px;
 }
