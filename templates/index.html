@@ -195,5 +195,25 @@
       }
     });
   </script>
+  <script>
+  let lastScrollY = window.scrollY;
+  const topbar = document.getElementById('topbar');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      if (window.scrollY > lastScrollY) {
+        // Scrolling down -> Hide navbar
+        topbar.classList.add('is-scrolled');
+      } else {
+        // Scrolling up -> Show navbar again
+        topbar.classList.remove('is-scrolled');
+      }
+    } else {
+      // At the very top -> Show default navbar
+      topbar.classList.remove('is-scrolled');
+    }
+    lastScrollY = window.scrollY;
+  });
+</script>
 </body>
 </html>
