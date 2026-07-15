@@ -51,30 +51,89 @@
       padding-bottom: 2rem;   /* Ensures buttons do not get cut off at bottom viewports */
     }
 
-    /* 2. Elevate Interactive Mockup (Glassmorphism, Avatars, Pulse) */
-    .front-chat {
-      background: rgba(255, 255, 255, 0.06) !important; /* Semi-transparent white */
-      backdrop-filter: blur(16px);                      /* Heavy backdrop blur */
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Subtle white border */
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;  /* Deep premium drop shadow */
-      border-radius: 16px;
+    /* ==========================================================================
+       SMARTPHONE MOCKUP FOR FRONT-CHAT ASSISTANT
+       ========================================================================== */
+    .phone-mockup {
+      position: relative;
+      width: 100%;
+      max-width: 360px; /* Standard premium phone width */
+      margin: 0 auto;
+      border: 11px solid #2d2a30; /* Phone bezel outer frame */
+      border-radius: 44px; /* Matches phone curvature */
+      background-color: #1a181c;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+      overflow: hidden;
+    }
+
+    /* Phone Notch / Speaker & Camera */
+    .phone-mockup::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 24px;
+      background-color: #2d2a30;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      z-index: 15;
+    }
+
+    /* Upper Status Indicators */
+    .phone-status-bar {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 22px 6px 22px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      z-index: 10;
       position: relative;
     }
 
-    /* Soft radial glow behind the chatbot to push background wireframes/grid back */
-    .front-chat::before {
+    .phone-status-bar .right-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Soft radial glow behind the phone mockup */
+    .phone-mockup-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-mockup-wrapper::before {
       content: "";
       position: absolute;
       top: -10%;
       left: -10%;
       right: -10%;
       bottom: -10%;
-      background: radial-gradient(circle, rgba(27, 13, 48, 0.8) 0%, rgba(0, 0, 0, 0) 70%);
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
       z-index: -1;
       pointer-events: none;
+    }
+
+    /* Glassmorphic Screen Container */
+    .front-chat {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0; /* Let the phone bezel handle the radius */
+      display: flex;
+      flex-direction: column;
+      height: 480px; /* Fixed viewport size inside the phone */
     }
 
     /* Header Bar layout centering and alignment */
@@ -84,6 +143,7 @@
       gap: 10px;
       padding: 14px 18px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.01);
     }
 
     /* Bot Avatar Styling */
@@ -137,12 +197,31 @@
       }
     }
 
+    /* Front-chat messages scroller */
+    .front-chat__messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
     /* Polishing the input composer bar at the bottom */
     .front-composer {
-      padding: 16px 18px 20px 18px !important; /* Added breathability underneath elements */
+      padding: 14px 18px 10px 18px !important;
       display: flex;
       gap: 10px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    /* Home Indicator bar at bottom of virtual phone */
+    .phone-home-indicator {
+      width: 110px;
+      height: 4px;
+      background-color: rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      margin: 8px auto 6px auto;
+      z-index: 10;
+      position: relative;
     }
 
     /* 3. Outer Edge Nav Alignment & Layout Container */
@@ -192,22 +271,40 @@
         </div>
       </div>
 
-      <aside class="front-chat" aria-label="Omisbots assistant">
-        <div class="front-chat__bar">
-          <span class="status-dot"></span>
-          <div class="bot-avatar" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4M12,18C8.69,18 6,15.31 6,12C6,10.93 6.28,9.93 6.77,9.07L8.25,10.55C8.09,11 8,11.5 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12C16,11.5 15.91,11 15.75,10.55L17.23,9.07C17.72,9.93 18,10.93 18,12C18,15.31 15.31,18 12,18Z"/>
-            </svg>
+      <!-- NEW: Interactive smartphone envelope container -->
+      <div class="phone-mockup-wrapper fade-up" style="animation-delay: 0.4s;">
+        <div class="phone-mockup">
+          <!-- Status indicators -->
+          <div class="phone-status-bar">
+            <span>9:41</span>
+            <div class="right-icons">
+              <span>5G</span>
+            </div>
           </div>
-          <span style="font-weight: 600; color: #ffffff;">Omisbots Assistant</span>
+
+          <aside class="front-chat" aria-label="Omisbots assistant">
+            <div class="front-chat__bar">
+              <span class="status-dot"></span>
+              <div class="bot-avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4M12,18C8.69,18 6,15.31 6,12C6,10.93 6.28,9.93 6.77,9.07L8.25,10.55C8.09,11 8,11.5 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12C16,11.5 15.91,11 15.75,10.55L17.23,9.07C17.72,9.93 18,10.93 18,12C18,15.31 15.31,18 12,18Z"/>
+                </svg>
+              </div>
+              <span style="font-weight: 600; color: #ffffff;">Omisbots Assistant</span>
+            </div>
+            
+            <div class="front-chat__messages" id="labChatLog" aria-live="polite"></div>
+            
+            <form class="front-composer" id="labComposer">
+              <input id="labMessageInput" type="text" autocomplete="off" placeholder="Ask about bots, automation..." />
+              <button type="submit">Ask</button>
+            </form>
+          </aside>
+
+          <!-- Bottom physical home gesture bar -->
+          <div class="phone-home-indicator"></div>
         </div>
-        <div class="front-chat__messages" id="labChatLog" aria-live="polite"></div>
-        <form class="front-composer" id="labComposer">
-          <input id="labMessageInput" type="text" autocomplete="off" placeholder="Ask about bots, automation..." />
-          <button type="submit">Ask</button>
-        </form>
-      </aside>
+      </div>
     </section>
 
     <section class="services reveal" id="services" aria-label="Services">
