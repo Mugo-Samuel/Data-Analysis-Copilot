@@ -301,13 +301,13 @@ h1, h2, h3, p {
 /* ---------- Interactive Smartphone Wrapper & Mockup (Downsized) ---------- */
 .phone-mockup-wrapper {
   position: absolute;
-  top: 50%;
+  top: 80px;
   /*
     Align the phone to the viewport's right edge, even though the hero
     content itself is centered inside the 980px site shell.
   */
   right: calc(50% - 50vw + 24px);
-  transform: translateY(-50%);
+  transform: none;
   width: 270px;
 }
 
