@@ -1,6 +1,6 @@
 const GREETINGS = [
   "hi", "hi there", "hello","hae", "hello there", "hey", "hey there", "heya",
-  "hiya", "yo", "sup", "whats up", "what's up", "howdy", "greetings",
+  "hiya", "yo","holla", "sup", "whats up", "what's up", "howdy", "greetings",
   "good morning", "good afternoon", "good evening", "morning", "evening",
   "hola", "afternoon"
 ];
@@ -187,7 +187,7 @@ const labBot = {
     { keywords: ["price","pricing", "cost", "charge", "budget", "$"], reply: "Chatbot development usually ranges from $200 to $800 depending on channels, integrations, and conversation depth." },
     { keywords: ["contact", "email", "call", "reach"], reply: `You can reach us at ${CONTACT_EMAIL}. Share what you want the bot to do and which channel you need.` },
     { keywords: ["automation", "automate", "workflow", "reminder"], reply: "We can automate lead alerts, follow-up messages, appointment reminders, spreadsheet updates, CRM handoffs, and simple reporting flows." },
-    { keywords: ["whatsapp","channels", "telegram", "website", "web"], reply: "We build bots for WhatsApp, Telegram, and websites. The best channel depends on where your customers already message you." },
+    { keywords: ["whatsapp","builds","channels", "telegram", "website", "web"], reply: "We build bots for WhatsApp, Telegram, and websites. The best channel depends on where your customers already message you." },
     { keywords: ["support", "customer", "faq", "order"], reply: "A support bot can answer FAQs, check order details, collect issue information, route requests, and prepare a summary for your team." },
     { keywords: ["booking", "appointment", "hospital", "calendar"], reply: "A booking assistant can collect customer details, suggest available times, confirm appointments, and send automated reminders." },
     { keywords: ["sales", "lead", "sell"], reply: "A sales chatbot can qualify leads, recommend services, collect contact details, and notify your team when someone is ready to buy." },
