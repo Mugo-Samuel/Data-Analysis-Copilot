@@ -467,14 +467,20 @@ p {
   line-height: 1.65;
 }
 
-/* ---------- Scroll reveal (generic, driven by app.js IntersectionObserver) ---------- */
+/* ---------- Scroll reveal (generic, driven by site-motion.js) ----------
+   IMPORTANT: elements are visible by default. They are only ever hidden
+   if site-motion.js successfully runs and adds "reveal-armed" itself —
+   so a missing/blocked/404'd script can never make content disappear. */
 .reveal {
-  opacity: 0;
-  transform: translateY(22px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.reveal.is-visible {
+.reveal.reveal-armed {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.reveal.reveal-armed.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
