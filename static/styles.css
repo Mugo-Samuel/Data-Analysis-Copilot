@@ -169,9 +169,8 @@ input {
 /* ---------- Hero Section ---------- */
 .hero {
   min-height: 78vh;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(270px, 1fr);
-  gap: clamp(20px, 5vw, 60px);
+  position: relative;
+  display: block;
   align-items: center; /* Keeps both copy and assistant perfectly centered vertically */
   padding: 80px 0 74px;
 }
@@ -301,12 +300,15 @@ h1, h2, h3, p {
 
 /* ---------- Interactive Smartphone Wrapper & Mockup (Downsized) ---------- */
 .phone-mockup-wrapper {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  justify-self: end;
+  position: absolute;
+  top: 50%;
+  /*
+    Align the phone to the viewport's right edge, even though the hero
+    content itself is centered inside the 980px site shell.
+  */
+  right: calc(50% - 50vw + 24px);
+  transform: translateY(-50%);
   width: 270px;
-  margin-left: auto;
 }
 
 .phone-mockup-wrapper::before {
@@ -925,6 +927,10 @@ h1, h2, h3, p {
   }
 
   .phone-mockup-wrapper {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
     max-width: 270px;
     margin: 0 auto;
     justify-content: center; /* Center on tablets/mobile screens */
