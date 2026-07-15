@@ -10,33 +10,33 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
 </head>
 <body>
+  <div class="bg-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
   <main class="site-shell">
-    <nav class="topbar" aria-label="Primary">
+    <nav class="topbar" aria-label="Primary" id="topbar">
       <a class="brand" href="#home">Omisbots</a>
       <div class="nav-links">
         <a href="#services">Services</a>
         <a href="#demo">Demo Bots</a>
-
         <a href="mailto:automatebots.io@gmail.com">Contact</a>
       </div>
     </nav>
 
     <section class="hero" id="home">
       <div class="hero__copy">
-        <p class="eyebrow">Chatbots + workflow automations</p>
-        <h1>We build useful chatbots for real business work.</h1>
-        <p class="hero__text">
+        <p class="eyebrow fade-up" style="animation-delay: 0.05s;">Chatbots + workflow automations</p>
+        <h1 id="heroTitle">We build useful chatbots for real business work.</h1>
+        <p class="hero__text fade-up" style="animation-delay: 0.3s;">
           We develop WhatsApp, Telegram, and website chatbots that answer customers,
           qualify leads, book appointments, collect details, and connect to simple automations.
         </p>
 
-        <div class="hero__actions">
+        <div class="hero__actions fade-up" style="animation-delay: 0.4s;">
           <a class="button button--primary" href="mailto:automatebots.io@gmail.com">Contact us</a>
           <a class="button button--secondary" href="#demo">View chatbot demo</a>
         </div>
 
-        <div class="hero__meta" id="pricing">
-    
+        <div class="hero__meta fade-up" id="pricing" style="animation-delay: 0.5s;">
           <span>Email: <a href="mailto:automatebots.io@gmail.com">automatebots.io@gmail.com</a></span>
         </div>
       </div>
@@ -54,7 +54,7 @@
       </aside>
     </section>
 
-    <section class="services" id="services" aria-label="Services">
+    <section class="services reveal" id="services" aria-label="Services">
       <div class="section-heading">
         <p class="eyebrow">What we focus on</p>
         <h2>Chatbots first. Automations included where they help.</h2>
@@ -77,7 +77,7 @@
     </section>
 
     <section class="demo" id="demo" aria-label="Dummy chatbot previews">
-      <div class="section-heading section-heading--split">
+      <div class="section-heading section-heading--split reveal">
         <div>
           <p class="eyebrow">Dummy chatbot examples</p>
           <h2>Choose a sample bot and preview the conversation.</h2>
@@ -90,25 +90,25 @@
 
       <div class="demo-grid">
         <aside class="bot-picker" aria-label="Choose chatbot">
-          <button class="bot-card is-active" type="button" data-bot="support">
+          <button class="bot-card is-active reveal" type="button" data-bot="support">
             <strong>Customer Care Bot</strong>
             <small>Orders, returns, issue routing</small>
           </button>
-          <button class="bot-card" type="button" data-bot="sales">
+          <button class="bot-card reveal" type="button" data-bot="sales" style="transition-delay: 0.08s;">
             <strong>Sales Assistant</strong>
             <small>Lead capture and product guidance</small>
           </button>
-          <button class="bot-card" type="button" data-bot="hospital">
+          <button class="bot-card reveal" type="button" data-bot="hospital" style="transition-delay: 0.16s;">
             <strong>Hospital Desk Bot</strong>
             <small>Appointments and reminders</small>
           </button>
-          <button class="bot-card" type="button" data-bot="furniture">
+          <button class="bot-card reveal" type="button" data-bot="furniture" style="transition-delay: 0.24s;">
             <strong>Furniture Store Bot</strong>
             <small>Catalog advice and delivery help</small>
           </button>
         </aside>
 
-        <section class="phone" aria-label="Selected chatbot preview">
+        <section class="phone reveal" aria-label="Selected chatbot preview" style="transition-delay: 0.1s;">
           <div class="phone__top">
             <span>9:41</span>
             <span class="phone__notch"></span>
@@ -135,7 +135,7 @@
       </div>
     </section>
 
-    <section class="contact-strip" aria-label="Contact">
+    <section class="contact-strip reveal" aria-label="Contact">
       <p>Ready to discuss a chatbot or automation?</p>
       <a href="mailto:automatebots.io@gmail.com">automatebots.io@gmail.com</a>
     </section>
@@ -146,6 +146,7 @@
     </footer>
   </main>
 
+  <script src="{{ url_for('static', filename='site-motion.js') }}"></script>
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
