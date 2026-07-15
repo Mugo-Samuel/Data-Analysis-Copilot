@@ -153,7 +153,7 @@ input {
   gap: clamp(30px, 7vw, 92px);
   align-items: center;
   padding: 58px 0 74px;
-  position: relative; 
+ 
 }
 
 .hero__copy {
