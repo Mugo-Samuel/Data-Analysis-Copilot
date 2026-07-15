@@ -317,16 +317,7 @@ p {
   animation: floatWidget 6s ease-in-out infinite;
   transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
-#vanta-globe {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 330px;
-  height: 330px;
-  border-radius: 28px;
-  overflow: hidden;
-  z-index: 0;
-}
+
 
 .front-chat:hover {
   box-shadow: 0 28px 72px rgba(61, 63, 95, 0.26);
@@ -354,6 +345,16 @@ p {
   margin-bottom: 16px;
   font-size: 0.82rem;
   font-weight: 800;
+}
+#vanta-globe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 330px;
+  height: 330px;
+  border-radius: 28px;
+  overflow: hidden;
+  z-index: 0;
 }
 
 .status-dot {
