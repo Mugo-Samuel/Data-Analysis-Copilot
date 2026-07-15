@@ -200,6 +200,25 @@ function getLabReply(message) {
   return findReply(labBot, message);
 }
 
+// --- Typing indicator helpers -------------------------------------------
+// Shows a bouncing three-dot bubble in the given log while a reply is
+// "being written", then removes it right before the real bubble appends.
+function showTyping(logEl) {
+  const typing = document.createElement("div");
+  typing.className = "typing";
+  typing.innerHTML = "<span></span><span></span><span></span>";
+  logEl.appendChild(typing);
+  logEl.scrollTop = logEl.scrollHeight;
+  return typing;
+}
+
+function removeTyping(typingEl) {
+  if (typingEl && typingEl.parentNode) {
+    typingEl.parentNode.removeChild(typingEl);
+  }
+}
+// --------------------------------------------------------------------------
+
 function renderMessages(botKey) {
   const bot = bots[botKey];
 
@@ -260,16 +279,18 @@ composer.addEventListener("submit", (event) => {
 
   addMessage("user", message);
   messageInput.value = "";
+  chatLog.scrollTop = chatLog.scrollHeight;
 
   const bot = bots[activeBot];
   const reply = findReply(bot, message);
 
+  const typingEl = showTyping(chatLog);
+
   window.setTimeout(() => {
+    removeTyping(typingEl);
     addMessage("bot", reply);
     chatLog.scrollTop = chatLog.scrollHeight;
-  }, 380);
-
-  chatLog.scrollTop = chatLog.scrollHeight;
+  }, 900);
 });
 
 labComposer.addEventListener("submit", (event) => {
@@ -281,9 +302,12 @@ labComposer.addEventListener("submit", (event) => {
   addLabMessage("user", message);
   labMessageInput.value = "";
 
+  const typingEl = showTyping(labChatLog);
+
   window.setTimeout(() => {
+    removeTyping(typingEl);
     addLabMessage("bot", getLabReply(message));
-  }, 320);
+  }, 850);
 });
 
 renderMessages(activeBot);
