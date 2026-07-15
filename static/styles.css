@@ -301,14 +301,14 @@ h1, h2, h3, p {
 /* ---------- Interactive Smartphone Wrapper & Mockup (Downsized) ---------- */
 .phone-mockup-wrapper {
   position: absolute;
-  top: 80px;
+  top: 24px;
   /*
-    Align the phone to the viewport's right edge, even though the hero
-    content itself is centered inside the 980px site shell.
+    Align the phone flush to the true viewport right edge, even though the
+    hero content itself is centered inside the 980px site shell.
   */
-  right: calc(50% - 50vw + 24px);
+  right: calc(50% - 50vw);
   transform: none;
-  width: 270px;
+  width: 320px;
 }
 
 .phone-mockup-wrapper::before {
@@ -325,7 +325,7 @@ h1, h2, h3, p {
 
 .phone-mockup {
   position: relative;
-  width: 270px;
+  width: 320px;
   max-width: 100%; /* Keeps the mockup responsive within its right column */
   margin: 0;
   border: 8px solid #2d2a30; /* Thinner elegant bezel */
@@ -931,7 +931,7 @@ h1, h2, h3, p {
     top: auto;
     right: auto;
     transform: none;
-    max-width: 270px;
+    max-width: 320px;
     margin: 0 auto;
     justify-content: center; /* Center on tablets/mobile screens */
     justify-self: center;
@@ -974,4 +974,3 @@ h1, h2, h3, p {
     height: 480px;
   }
 }
-
