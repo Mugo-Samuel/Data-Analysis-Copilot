@@ -93,22 +93,28 @@ input {
   gap: 22px;
   min-height: 44px;
   color: #fff;
-  position: sticky;
+  position: fixed; /* Changed to fixed so it stays anchored to the screen frame */
   top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Centers the fixed bar perfectly */
+  width: min(980px, calc(100vw - 32px));
   z-index: 20;
-  padding: 10px 16px;
-  margin: 0 -16px;
+  padding: 18px 16px;
+  margin: 0;
   border-radius: 999px;
-  transition: background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
 }
 
+/* When scrolling down, slide the navigation completely out of view */
 .topbar.is-scrolled {
   padding: 8px 16px;
   background: rgba(52, 56, 70, 0.42);
   backdrop-filter: blur(14px);
   box-shadow: 0 12px 30px rgba(30, 32, 55, 0.18);
+  
+  /* Slides it up off-screen when scrolled */
+  transform: translate(-50%, -100px); 
 }
-
 .brand {
   font-size: 1.15rem;
   font-weight: 800;
